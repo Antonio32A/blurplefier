@@ -2,13 +2,12 @@
 
 import aioredis
 from discord.ext import commands
-
-import ruamel.yaml
+import json
 
 
 async def is_blacklisted(ctx):
-    role_id = ctx.bot.config['blacklist_role']
-    return not any(r.id == role_id for r in ctx.author.roles)
+    blacklist = ctx.bot.config['blacklist']
+    return not ctx.author.id in blacklist
 
 
 class Bot(commands.Bot):
@@ -25,7 +24,7 @@ class Bot(commands.Bot):
 
         self.redis = None
 
-        extensions = ('jishaku', 'bot.cogs.blurple', 'bot.cogs.errors', 'bot.cogs.help')
+        extensions = ('jishaku', 'bot.cogs.blurple', 'bot.cogs.errors', 'bot.cogs.help', 'bot.cogs.rollteam')
 
         for name in extensions:
             self.load_extension(name)
@@ -33,12 +32,10 @@ class Bot(commands.Bot):
         self.add_check(is_blacklisted)
 
     @classmethod
-    def with_config(cls, path='config.yaml'):
+    def with_config(cls, path='config.json'):
         """Create a bot instance with a Config."""
-
-        with open(path, encoding='utf-8') as f:
-            data = ruamel.yaml.safe_load(f)
-
+        with open('config.json', 'r', encoding="utf8") as file:
+            data = json.load(file)
         return cls(data)
 
     async def start(self, *args, **kwargs):

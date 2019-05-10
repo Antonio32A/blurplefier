@@ -19,18 +19,19 @@ async def get_modifier(ctx):
     config = ctx.bot.config
 
     role_ids = {
-        config['blurple_light_role']: 'light',
-        config['pending_blurple_light_role']: 'light',
-        config['blurple_dark_role']: 'dark',
-        config['pending_blurple_dark_role']: 'dark',
+        config["guilds"][str(ctx.guild.id)]['blurple_light_role']: 'light',
+        config["guilds"][str(ctx.guild.id)]['pending_blurple_light_role']: 'light',
+        config["guilds"][str(ctx.guild.id)]['blurple_dark_role']: 'dark',
+        config["guilds"][str(ctx.guild.id)]['pending_blurple_dark_role']: 'dark',
     }
 
     try:
         found = next(x for x in ctx.author.roles if x.id in role_ids)
     except StopIteration:
+        prefix = self.bot.config["prefix"]
         await ctx.send(
             f'<@!{ctx.author.id}> You need to be a part of a team first.'
-            f' To join a team, use the `+rollteam` command on the Blurplefied bot.'
+            f' To join a team, use the `{prefix}rollteam` command.'
         )
     else:
         # 'light' or 'dark'
@@ -135,17 +136,17 @@ class Blurplefy(Cog):
 
     @Cog.listener()
     async def on_ready(self):
-        channel = self.bot.get_channel(self.bot.config['blurplefier_reaction_channel'])
-        message = await channel.fetch_message(self.bot.config['blurplefier_reaction_message'])
-
         self._ready.clear()
         self._reaction_users = {
             key: set() for key in self._reaction_users.keys()
         }
 
-        for reaction in filter(lambda x: x.emoji in self._reaction_users.keys(), message.reactions):
-            async for user in reaction.users(limit=None):
-                self._reaction_users[reaction.emoji].add(user.id)
+        for guild in self.bot.config['guilds']:
+            channel = self.bot.get_channel(self.bot.config['guilds'][str(guild)]['blurplefier_reaction_channel'])
+            message = await channel.fetch_message(self.bot.config['guilds'][str(guild)]['blurplefier_reaction_message'])
+            for reaction in filter(lambda x: x.emoji in self._reaction_users.keys(), message.reactions):
+                async for user in reaction.users(limit=None):
+                    self._reaction_users[reaction.emoji].add(user.id)
 
         self._ready.set()
         log.info('Cached all reaction users to blurplefier message.')
@@ -159,7 +160,7 @@ class Blurplefy(Cog):
         self._handle_reaction(payload, 'remove')
 
     def _handle_reaction(self, payload, action):
-        if payload.message_id != self.bot.config['blurplefier_reaction_message']:
+        if payload.message_id != self.bot.config['guilds'][str(payload.guild_id)]['blurplefier_reaction_message']:
             return
 
         cached = self._reaction_users.get(payload.emoji.name)
@@ -184,9 +185,9 @@ class Blurplefy(Cog):
             if user_id in self._reaction_users[name]:
                 return value
 
-        guild_id = self.bot.config['project_blurple_guild']
-        channel_id = self.bot.config['blurplefier_reaction_channel']
-        message_id = self.bot.config['blurplefier_reaction_message']
+        guild_id = str(ctx.guild.id)
+        channel_id = self.bot.config['guilds'][guild_id]['blurplefier_reaction_channel']
+        message_id = self.bot.config['guilds'][guild_id]['blurplefier_reaction_message']
 
         message_link = f'https://discordapp.com/channels/{guild_id}/{channel_id}/{message_id}'
 

@@ -1,0 +1,38 @@
+{
+   "queue_emoji": ":loading:576381495875338240",
+   "blacklist": [],
+   "guilds": {
+      "576139408596331249": {
+         "pending_blurple_light_role": 576378904294719488,
+         "pending_blurple_dark_role": 57637893857277952,
+         "blurple_light_role": 57637897403381035,
+         "blurple_dark_role": 576379026340443219,
+         "blurplefier_reaction_channel": 57639288257953815,
+         "blurplefier_reaction_message": 576379325815013895
+      },
+      "291558782755012670": {
+         "pending_blurple_light_role": 576400687787115537,
+         "pending_blurple_dark_role": 57640068555745802,
+         "blurple_light_role": 576400681859022864,
+         "blurple_dark_role": 576470067890636390,
+         "blurplefier_reaction_channel": 576429174791659906,
+         "blurplefier_reaction_message": 576430212278563478
+      }
+   },
+   "footer_thumbnail_url": "https://media.discordapp.net/emojis/412788702897766401.png",
+   "bot": {
+      "prefix": "=",
+      "owner_id": 166630166825664512,
+      "token": "your bot token"
+   },
+   "workers": [
+      "bot token1",
+      "bot token2 etc"
+   ],
+   "redis": {
+      "address": [
+         "127.0.0.1",
+         6379
+      ]
+   }
+}

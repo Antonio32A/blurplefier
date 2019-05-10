@@ -3,29 +3,17 @@ Blurplefy
 =========
 
 Bot which converts images to different blurple shades or other colors.
+This bot is a modified fork which works on multiple servers, has the rollteam command, it doesn't have docker and it uses JSON config.
+This bot might have more bugs.
 
 -------
 Running
 -------
 
-The bot can either be run with docker-compose or using another process manager, the steps are explained below:
-
 First you have to create a config file with credentials, you can simply copy the ``example-config.json`` and
 edit it with your own values, then save it as ``config.json``.
 
-Afterwards you'll want to adjust the ``WORKER_COUNT`` environment variable, if using docker you can copy the
-``example.env`` file, edit it and save it as ``.env``.
-
-To run the bot with docker see these steps:
-
-.. code-block :: bash
-
-    docker build -t blurplefy .
-
-    docker-compose up --scale workers=2
-
-
-To run the bot without docker you will need to install and run `Redis <https://redis.io>`_ (see
+To run the bot you will need to install and run `Redis <https://redis.io>`_ (see
 `here <https://redislabs.com/blog/redis-on-windows-10/>`_ for Windows 10 instructions) as well as
 install all the Python requirements using ``pip install -Ur requirements.txt``.
 

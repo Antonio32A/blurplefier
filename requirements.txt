@@ -2,4 +2,3 @@ aioredis
 discord.py
 jishaku
 pillow
-ruamel.yaml
