@@ -16,6 +16,7 @@ class help(Cog):
             embed.add_field(name='check', value='Check an image to get the Blurple User role.')
             embed.add_field(name='lightfy', value='Manipulate the image color over a curve of dark blurple, blurple, and white.')
             embed.add_field(name='darkfy', value='Manipulate the image color over a curve of not quite black, dark blurple, and blurple.')
+            embed.add_field(name='rollteam', value='Gives you a pending team role.')
             embed.set_footer(text="Blurplefier | " + str(ctx.author), icon_url='https://images-ext-1.discordapp.net/external/2qAD1AHfsqGs7h3CydMrskwnNjHBITIg9atQy9PEIhs/%3Fv%3D1/https/cdn.discordapp.com/emojis/412788702897766401.png')
             return embed
 
@@ -60,6 +61,13 @@ class help(Cog):
             embed.set_footer(text="Blurplefier | " + str(ctx.author), icon_url='https://images-ext-1.discordapp.net/external/2qAD1AHfsqGs7h3CydMrskwnNjHBITIg9atQy9PEIhs/%3Fv%3D1/https/cdn.discordapp.com/emojis/412788702897766401.png')
             return embed
 
+        def rollteam_embed():
+            embed = discord.Embed(title='Command: rollteam', description='Gives you a pending team role.')
+            embed.color = int(0x7289da)
+            embed.add_field(name='Usage:', value='`rollteam`')
+            embed.set_footer(text="Blurplefier | " + str(ctx.author), icon_url='https://images-ext-1.discordapp.net/external/2qAD1AHfsqGs7h3CydMrskwnNjHBITIg9atQy9PEIhs/%3Fv%3D1/https/cdn.discordapp.com/emojis/412788702897766401.png')
+            return embed
+
         HELP_MESSAGES = {
             '' : default_embed(),
             'help' : help_embed(),
@@ -67,7 +75,8 @@ class help(Cog):
             'check' : check_embed(),
             'lightfy' : lightfy_embed(),
             'darkfy' : darkfy_embed(),
-            'error' : error_embed()
+            'error' : error_embed(),
+            'rollteam': rollteam_embed()
         }
 
         try:
@@ -82,4 +91,3 @@ class help(Cog):
 def setup(bot):
     bot.remove_command('help')
     bot.add_cog(help(bot))
-

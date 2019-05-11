@@ -28,7 +28,7 @@ async def get_modifier(ctx):
     try:
         found = next(x for x in ctx.author.roles if x.id in role_ids)
     except StopIteration:
-        prefix = self.bot.config["prefix"]
+        prefix = ctx.bot.config["prefix"]
         await ctx.send(
             f'<@!{ctx.author.id}> You need to be a part of a team first.'
             f' To join a team, use the `{prefix}rollteam` command.'
