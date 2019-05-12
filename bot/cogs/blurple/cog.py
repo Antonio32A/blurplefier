@@ -142,11 +142,14 @@ class Blurplefy(Cog):
         }
 
         for guild in self.bot.config['guilds']:
-            channel = self.bot.get_channel(self.bot.config['guilds'][str(guild)]['blurplefier_reaction_channel'])
-            message = await channel.fetch_message(self.bot.config['guilds'][str(guild)]['blurplefier_reaction_message'])
-            for reaction in filter(lambda x: x.emoji in self._reaction_users.keys(), message.reactions):
-                async for user in reaction.users(limit=None):
-                    self._reaction_users[reaction.emoji].add(user.id)
+            try:
+                channel = self.bot.get_channel(self.bot.config['guilds'][str(guild)]['blurplefier_reaction_channel'])
+                message = await channel.fetch_message(self.bot.config['guilds'][str(guild)]['blurplefier_reaction_message'])
+                for reaction in filter(lambda x: x.emoji in self._reaction_users.keys(), message.reactions):
+                    async for user in reaction.users(limit=None):
+                        self._reaction_users[reaction.emoji].add(user.id)
+            except:
+                continue
 
         self._ready.set()
         log.info('Cached all reaction users to blurplefier message.')
