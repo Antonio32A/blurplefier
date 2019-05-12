@@ -63,7 +63,7 @@ class config(Cog):
         return await ctx.send(embed=embed)
 
     @config.command()
-    async def role(self, ctx, type: str=None, role: discord.Role=None):
+    async def role(self, ctx, type: str=None, *, role: discord.Role=None):
         if type == None:
             return await ctx.send('You need to specify a type.\nExample: `config role blurple_light_role [role]`')
         if role == None:
